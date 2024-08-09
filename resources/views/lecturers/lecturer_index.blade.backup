@@ -1,0 +1,47 @@
+@extends("layouts.master")
+
+@section("content")
+    <div class="card">
+        <div class="card-header">
+            List of Lecturers
+            <div class="float-right">
+                <input
+                    type="text"
+                    id="search"
+                    class="form-control"
+                    placeholder="Search by name"
+                />
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="lecturerTable">
+                @include("lecturers.lecturer_table", ["lecturers" => $lecturers])
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section("scripts")
+    <script>
+        $(document).ready(function () {
+            $('#search').on('keyup', function () {
+                var query = $(this).val();
+
+                console.log('Search query: ' + query); // Log the query to see if it's captured correctly
+
+                $.ajax({
+                    url: '{{ route("lecturers.search") }}',
+                    type: 'GET',
+                    data: { search: query },
+                    success: function (data) {
+                        console.log('AJAX response received'); // Log when a response is received
+                        $('#lecturerTable').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX error: ' + error); // Log any AJAX errors
+                    },
+                });
+            });
+        });
+    </script>
+@endsection

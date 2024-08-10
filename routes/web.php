@@ -3,13 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LecturerController;
+use App\Http\Controllers\StudentController;
 
 Route::get('/', function () {
     // return view('welcome');
     return redirect()->route('login');
 });
 
-Route::get('/lecturers/find', [LecturerController::class, 'find'])->name('lecturers.find');
+Route::get('/lecturers/find', [LecturerController::class, 'find'])->middleware(['auth', 'can:is-admin'])->name('lecturers.find');
+Route::get('/find-pak', [LecturerController::class, 'findPak'])->middleware(['auth', 'can:is-admin'])->name('find.pak');
 
 // 4
 Route::middleware(['auth'])->group(function(){   
@@ -31,16 +33,11 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/profile', [ProfileController::class, 'postProfile'])->name('profile.post');
 
     Route::resource('lecturers',LecturerController::class)->middleware('can:is-admin');
-    
-    
 
+    Route::resource('students',StudentController::class)->middleware('can:is-admin');
     
 
 });
-
-
-
-
 
 Auth::routes();
 

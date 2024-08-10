@@ -263,4 +263,23 @@ class LecturerController extends Controller
             return view('lecturers.lecturer_find');
         }
     }
+
+    public function findPak(Request $request)
+    {
+        try {
+            $pak = User::select("name")
+                ->where("name", "LIKE", "%{$request->term}%")
+                ->where("role", "lecturer")
+                ->get();
+
+            return response()->json($pak);
+        } catch (\Exception $e) {
+            // Log the error message
+            \Log::error('Error in findPak: ' . $e->getMessage());
+            
+            // Optionally return a more detailed error message for debugging
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }
+

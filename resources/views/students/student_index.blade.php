@@ -2,7 +2,7 @@
 
 @section("content")
     <div class="card">
-        <div class="card-header">List of Lecturers</div>
+        <div class="card-header">List of Students</div>
         <div class="card-body">
             @if (session("message"))
                 <div class="alert alert-success mt-3">
@@ -11,20 +11,10 @@
             @endif
 
             <table class="table">
-                <!-- <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Staff No</th>
-                    <th>Email</th>
-                    <th>Department</th>
-                    <th>Level</th>
-                    <th class="text-center">Action</th>
-                </tr> -->
-
                 <tr>
                     <th>
                         <a
-                            href="{{ route("lecturers.index", array_merge(request()->all(), ["sort_by" => "id", "sort_order" => $sortBy === "id" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
+                            href="{{ route("students.index", array_merge(request()->all(), ["sort_by" => "id", "sort_order" => $sortBy === "id" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
                         >
                             #
                             @if ($sortBy === "id")
@@ -36,7 +26,7 @@
                     </th>
                     <th>
                         <a
-                            href="{{ route("lecturers.index", array_merge(request()->all(), ["sort_by" => "name", "sort_order" => $sortBy === "name" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
+                            href="{{ route("students.index", array_merge(request()->all(), ["sort_by" => "name", "sort_order" => $sortBy === "name" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
                         >
                             Name
                             @if ($sortBy === "name")
@@ -48,9 +38,9 @@
                     </th>
                     <th>
                         <a
-                            href="{{ route("lecturers.index", array_merge(request()->all(), ["sort_by" => "matric_id", "sort_order" => $sortBy === "matric_id" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
+                            href="{{ route("students.index", array_merge(request()->all(), ["sort_by" => "matric_id", "sort_order" => $sortBy === "matric_id" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
                         >
-                            Staff No
+                            Matric Id
                             @if ($sortBy === "matric_id")
                                 <span>
                                     {{ $sortOrder === "asc" ? "▲" : "▼" }}
@@ -60,7 +50,7 @@
                     </th>
                     <th>
                         <a
-                            href="{{ route("lecturers.index", array_merge(request()->all(), ["sort_by" => "email", "sort_order" => $sortBy === "email" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
+                            href="{{ route("students.index", array_merge(request()->all(), ["sort_by" => "email", "sort_order" => $sortBy === "email" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
                         >
                             Email
                             @if ($sortBy === "email")
@@ -72,10 +62,10 @@
                     </th>
                     <th>
                         <a
-                            href="{{ route("lecturers.index", array_merge(request()->all(), ["sort_by" => "department", "sort_order" => $sortBy === "department" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
+                            href="{{ route("students.index", array_merge(request()->all(), ["sort_by" => "year_of_study", "sort_order" => $sortBy === "year_of_study" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
                         >
-                            Department
-                            @if ($sortBy === "department")
+                            Year
+                            @if ($sortBy === "year_of_study")
                                 <span>
                                     {{ $sortOrder === "asc" ? "▲" : "▼" }}
                                 </span>
@@ -84,10 +74,10 @@
                     </th>
                     <th>
                         <a
-                            href="{{ route("lecturers.index", array_merge(request()->all(), ["sort_by" => "lecturer_level", "sort_order" => $sortBy === "lecturer_level" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
+                            href="{{ route("students.index", array_merge(request()->all(), ["sort_by" => "program", "sort_order" => $sortBy === "program" && $sortOrder === "asc" ? "desc" : "asc"])) }}"
                         >
-                            Level
-                            @if ($sortBy === "lecturer_level")
+                            Program
+                            @if ($sortBy === "program")
                                 <span>
                                     {{ $sortOrder === "asc" ? "▲" : "▼" }}
                                 </span>
@@ -96,20 +86,20 @@
                     </th>
                     <th class="text-center">Action</th>
                 </tr>
-                @foreach ($lecturers as $lecturer)
+                @foreach ($students as $student)
                     <tr>
                         <td>
-                            {{ ($lecturers->currentPage() - 1) * $lecturers->perPage() + $loop->iteration }}
+                            {{ ($students->currentPage() - 1) * $students->perPage() + $loop->iteration }}
                         </td>
                         <!-- Increment number -->
-                        <td>{{ $lecturer->user->name }}</td>
-                        <td>{{ $lecturer->user->matric_id }}</td>
-                        <td>{{ $lecturer->user->email }}</td>
-                        <td>{{ $lecturer->department }}</td>
-                        <td>{{ $lecturer->lecturer_level }}</td>
+                        <td>{{ $student->user->name }}</td>
+                        <td>{{ $student->user->matric_id }}</td>
+                        <td>{{ $student->user->email }}</td>
+                        <td>{{ $student->year_of_study }}</td>
+                        <td>{{ $student->program }}</td>
                         <td class="text-center">
                             <a
-                                href="{{ route("lecturers.edit", $lecturer->id) }}"
+                                href="{{ route("students.edit", $student->id) }}"
                                 style="text-decoration: none"
                             >
                                 <svg
@@ -140,7 +130,7 @@
                                 href="javascript:void(0);"
                                 data-bs-toggle="modal"
                                 data-bs-target="#deleteModal"
-                                data-id="{{ $lecturer->id }}"
+                                data-id="{{ $student->id }}"
                                 style="text-decoration: none"
                             >
                                 <svg
@@ -172,8 +162,8 @@
                                 </svg>
                             </a>
                             <form
-                                id="delete-form-{{ $lecturer->id }}"
-                                action="{{ route("lecturers.destroy", $lecturer->id) }}"
+                                id="delete-form-{{ $student->id }}"
+                                action="{{ route("students.destroy", $student->id) }}"
                                 method="POST"
                                 style="display: none"
                             >
@@ -185,18 +175,14 @@
                 @endforeach
             </table>
             <!-- Pagination links -->
-            <!-- <div class="d-flex justify-content-center">
-                {{ $lecturers->links() }}
-            </div> -->
-
             <div class="d-flex justify-content-between justify-content-center">
                 <div>
-                    Showing {{ $lecturers->firstItem() }} to
-                    {{ $lecturers->lastItem() }} of {{ $lecturers->total() }}
+                    Showing {{ $students->firstItem() }} to
+                    {{ $students->lastItem() }} of {{ $students->total() }}
                     results
                 </div>
                 <div>
-                    {{ $lecturers->links() }}
+                    {{ $students->links() }}
                 </div>
             </div>
         </div>
@@ -257,9 +243,9 @@
 
             deleteModal.addEventListener('show.bs.modal', function (event) {
                 var button = event.relatedTarget;
-                var lecturerId = button.getAttribute('data-id');
+                var studentId = button.getAttribute('data-id');
                 deleteForm = document.getElementById(
-                    'delete-form-' + lecturerId,
+                    'delete-form-' + studentId,
                 );
             });
 

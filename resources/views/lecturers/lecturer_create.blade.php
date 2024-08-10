@@ -73,7 +73,6 @@
                             id="password"
                             name="password"
                             class="form-control"
-                            value="{{ old("password") }}"
                         />
                     </div>
                     @error("password")
@@ -81,7 +80,7 @@
                     @enderror
                 </div>
                 <div class="row mb-3">
-                    <label for="level" class="col-sm-2 col-form-label">
+                    <label for="department" class="col-sm-2 col-form-label">
                         Department
                     </label>
 

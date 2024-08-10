@@ -32,8 +32,10 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('12345678'), // Setting a fixed password for all users
-            'matric_id' => '02' . fake()->unique()->numerify('###'), // Generates matric_id like '02xxx'
-            'role' => 'lecturer',
+            // 'matric_id' => '02' . fake()->unique()->numerify('###'), // Generates matric_id like '02xxx'
+            'matric_id' => 'AI210' . fake()->unique()->numerify('###'), 
+            // 'role' => 'lecturer',
+            'role' => 'student',
             'last_login' => now(),
             'remember_token' => Str::random(10),
         ];

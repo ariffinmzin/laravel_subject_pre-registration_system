@@ -12,7 +12,9 @@
     <a href="{{ route("students.create") }}" class="btn btn-info w-100 mb-2">
         Add Student
     </a>
-    <a href="" class="btn btn-info w-100 mb-2">Find Student</a>
+    <a href="{{ route("students.find") }}" class="btn btn-info w-100 mb-2">
+        Find Student
+    </a>
 
     <a href="{{ route("lecturers.index") }}" class="btn btn-dark w-100 mb-2">
         View Lecturer

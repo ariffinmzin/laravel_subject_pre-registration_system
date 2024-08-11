@@ -11,36 +11,33 @@ Route::get('/', function () {
 });
 
 Route::get('/lecturers/find', [LecturerController::class, 'find'])->middleware(['auth', 'can:is-admin'])->name('lecturers.find');
-Route::get('/find-pak', [LecturerController::class, 'findPak'])->middleware(['auth', 'can:is-admin'])->name('find.pak');
+Route::get('/find-pak', [StudentController::class, 'findPak'])->middleware(['auth', 'can:is-admin'])->name('find.pak');
+Route::get('/students/find', [StudentController::class, 'find'])->middleware(['auth', 'can:is-admin'])->name('students.find');
 
 // 4
-Route::middleware(['auth'])->group(function(){   
-    
-    Route::get('/lecturer-home', function(){     // 2
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/lecturer-home', function () {     // 2
         return view('lecturers.home');
     })->middleware('can:is-lecturer');
-    
-    Route::get('/student-register', function(){
+
+    Route::get('/student-register', function () {
         return view('students.registration');
     })->middleware('can:is-student');
 
-    Route::get('/admin-dashboard', function(){
+    Route::get('/admin-dashboard', function () {
         return view('administrators.dashboard');
     })->middleware('can:is-admin')->name('admin.dashboard');
 
     //5
-    Route::get('/profile',[ProfileController::class, 'getProfile'])->name('profile.get');
+    Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile.get');
     Route::post('/profile', [ProfileController::class, 'postProfile'])->name('profile.post');
 
-    Route::resource('lecturers',LecturerController::class)->middleware('can:is-admin');
+    Route::resource('lecturers', LecturerController::class)->middleware('can:is-admin');
 
-    Route::resource('students',StudentController::class)->middleware('can:is-admin');
-    
-
+    Route::resource('students', StudentController::class)->middleware('can:is-admin');
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-

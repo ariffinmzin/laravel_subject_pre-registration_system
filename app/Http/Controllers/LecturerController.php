@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use App\Models\Lecturer;
 use Illuminate\Support\Facades\Hash;
@@ -35,13 +36,13 @@ class LecturerController extends Controller
         // Ensure we're sorting by a column in the users table
         if (in_array($sortBy, ['name', 'email', 'matric_id'])) {
             $lecturers = Lecturer::join('users', 'lecturers.user_id', '=', 'users.id')
-                             ->orderBy("users.$sortBy", $sortOrder)
-                             ->select('lecturers.*', 'users.name', 'users.email', 'users.matric_id')
-                             ->paginate(10);
+                ->orderBy("users.$sortBy", $sortOrder)
+                ->select('lecturers.*', 'users.name', 'users.email', 'users.matric_id')
+                ->paginate(10);
         } else {
             $lecturers = Lecturer::with('user')
-                             ->orderBy($sortBy, $sortOrder)
-                             ->paginate(10);
+                ->orderBy($sortBy, $sortOrder)
+                ->paginate(10);
         }
 
         return view('lecturers.lecturer_index', compact('lecturers', 'sortBy', 'sortOrder'));
@@ -62,7 +63,7 @@ class LecturerController extends Controller
     public function store(Request $request)
     {
         //
-       // Validate the request data and store the validated data in a variable
+        // Validate the request data and store the validated data in a variable
         $validated_data = $request->validate([
             'name' => 'required|string|max:255',
             'staff_no' => 'required|string|max:5|unique:users,matric_id',
@@ -91,8 +92,6 @@ class LecturerController extends Controller
 
         // Redirect with success message
         return redirect()->route('lecturers.index')->with('message', 'Lecturer created successfully.');
-    
-
     }
 
     /**
@@ -112,7 +111,6 @@ class LecturerController extends Controller
         $lecturer = Lecturer::with('user')->findOrFail($id);
 
         return view('lecturers.lecturer_edit', compact('lecturer'));
-
     }
 
     /**
@@ -125,8 +123,8 @@ class LecturerController extends Controller
 
         $validated_data = $request->validate([
             'name' => 'required|string|max:255',
-            'staff_no' => 'required|string|max:5|unique:users,matric_id,'. $lecturer->user->id,
-            'email' => 'required|string|email|max:255|unique:users,email,'. $lecturer->user->id,
+            'staff_no' => 'required|string|max:5|unique:users,matric_id,' . $lecturer->user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $lecturer->user->id,
             'password' => 'nullable|string|min:8',
             'department' => 'required|string|max:255',
             'level' => 'required|in:Senior Lecturer,Head of Department,Dean,Deputy Dean',
@@ -141,13 +139,12 @@ class LecturerController extends Controller
         if ($validated_data['password']) {
             $lecturer->user->password = Hash::make($validated_data['password']);
         }
-        
+
         $lecturer->user->save();
         $lecturer->save();
 
         // Redirect with success message
         return redirect()->route('lecturers.index')->with('message', 'Lecturer has been updated successfully.');
-        
     }
 
     /**
@@ -160,12 +157,11 @@ class LecturerController extends Controller
 
         // Delete the associated user
         $lecturer->user->delete();
-    
+
         // Delete the lecturer
         $lecturer->delete();
 
         return redirect()->route('lecturers.index')->with('message', 'Lecturer has been deleted successfully.');
-
     }
 
     public function find(Request $request)
@@ -173,7 +169,7 @@ class LecturerController extends Controller
         if ($request->ajax()) {
 
             $lecturers = Lecturer::join('users', 'lecturers.user_id', '=', 'users.id')
-                ->where(function($query) use ($request) {
+                ->where(function ($query) use ($request) {
                     $query->where('users.name', 'LIKE', "%{$request->search}%")
                         ->orWhere('users.matric_id', 'LIKE', "%{$request->search}%");
                 })
@@ -194,10 +190,11 @@ class LecturerController extends Controller
                                 <th scope="col">Email</th>
                                 <th scope="col">Department</th>
                                 <th scope="col">Level</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>';
-                
+
                 foreach ($lecturers as $index => $lecturer) {
                     $output .= '
                         <tr>
@@ -263,23 +260,4 @@ class LecturerController extends Controller
             return view('lecturers.lecturer_find');
         }
     }
-
-    public function findPak(Request $request)
-    {
-        try {
-            $pak = User::select("name")
-                ->where("name", "LIKE", "%{$request->term}%")
-                ->where("role", "lecturer")
-                ->get();
-
-            return response()->json($pak);
-        } catch (\Exception $e) {
-            // Log the error message
-            \Log::error('Error in findPak: ' . $e->getMessage());
-            
-            // Optionally return a more detailed error message for debugging
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
 }
-

@@ -2,7 +2,7 @@
 
 @section("content")
     <div class="card">
-        <div class="card-header">Add Student</div>
+        <div class="card-header">Edit Student</div>
         <div class="card-body">
             @if (session("message"))
                 <div class="alert alert-success mt-3">
@@ -10,7 +10,11 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route("students.store") }}">
+            <form
+                method="POST"
+                action="{{ route("students.update", $student->id) }}"
+            >
+                @method("PUT")
                 @csrf
                 <div class="mb-3 row">
                     <label for="name" class="col-sm-2 col-form-label">
@@ -22,7 +26,7 @@
                             id="name"
                             name="name"
                             class="form-control"
-                            value="{{ old("name") }}"
+                            value="{{ old("name", $student->user->name) }}"
                         />
                     </div>
                     @error("name")
@@ -39,7 +43,7 @@
                             id="matric_id"
                             name="matric_id"
                             class="form-control"
-                            value="{{ old("matric_id") }}"
+                            value="{{ old("matric_id", $student->user->matric_id) }}"
                         />
                     </div>
                     @error("matric_id")
@@ -56,7 +60,7 @@
                             id="email"
                             name="email"
                             class="form-control"
-                            value="{{ old("email") }}"
+                            value="{{ old("email", $student->user->email) }}"
                         />
                     </div>
                     @error("email")
@@ -107,7 +111,7 @@
                             name="pak"
                             id="pak"
                             class="form-control"
-                            value="{{ old("pak") }}"
+                            value="{{ old("pak", $student->lecturer->user->name ?? "") }}"
                             placeholder="Enter PAK name"
                         />
 
@@ -138,7 +142,7 @@
                             @foreach ($year_options as $value => $label)
                                 <option
                                     value="{{ $value }}"
-                                    {{ old("year") == $value ? "selected" : "" }}
+                                    {{ old("year", $student->year_of_study) == $value ? "selected" : "" }}
                                 >
                                     {{ $label }}
                                 </option>
@@ -172,7 +176,7 @@
                             @foreach ($program_options as $value => $label)
                                 <option
                                     value="{{ $value }}"
-                                    {{ old("program") == $value ? "selected" : "" }}
+                                    {{ old("program", $student->program) == $value ? "selected" : "" }}
                                 >
                                     {{ $label }}
                                 </option>
@@ -183,6 +187,44 @@
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="status" class="col-sm-2 col-form-label">
+                        Status
+                    </label>
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="status"
+                                id="unregistered"
+                                value="unregistered"
+                                {{ old("status", $student->status) == "unregistered" ? "checked" : "" }}
+                            />
+                            <label class="form-check-label" for="unregistered">
+                                Unregistered
+                            </label>
+                        </div>
+                        <div class="form-check mt-2">
+                            <!-- Added mt-2 for spacing -->
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="status"
+                                id="registered"
+                                value="registered"
+                                {{ old("status", $student->status) == "registered" ? "checked" : "" }}
+                            />
+                            <label class="form-check-label" for="registered">
+                                Registered
+                            </label>
+                        </div>
+                        @error("status")
+                            <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>

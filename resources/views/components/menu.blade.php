@@ -3,7 +3,7 @@
         href="{{ route("admin.dashboard") }}"
         class="btn btn-success w-100 mb-2"
     >
-        Home
+        Dashboard
     </a>
 
     <a href="{{ route("students.index") }}" class="btn btn-info w-100 mb-2">
@@ -25,10 +25,16 @@
     <a href="{{ route("lecturers.find") }}" class="btn btn-dark w-100 mb-2">
         Find Lecturer
     </a>
-    <a href="" class="btn btn-primary w-100 mb-2">View Subject</a>
-    <a href="" class="btn btn-primary w-100 mb-2">Add Subject</a>
-    <a href="" class="btn btn-primary w-100 mb-2">Edit Subject</a>
-    <a href="" class="btn btn-primary w-100 mb-2">Delete Subject</a>
+    <a href="{{ route("subjects.index") }}" class="btn btn-primary w-100 mb-2">
+        View Subject
+    </a>
+    <a
+        href="{{ route("subjects.create") }}"
+        class="btn btn-primary w-100 mb-2"
+    >
+        Add Subject
+    </a>
+    <a href="" class="btn btn-primary w-100 mb-2">Find Subject</a>
 @endcan
 
 <a href="{{ route("profile.get") }}" class="btn btn-secondary w-100 mb-2">

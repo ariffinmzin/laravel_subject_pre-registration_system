@@ -17,9 +17,9 @@ return new class extends Migration
 
         Schema::table('lecturers', function (Blueprint $table) {
             $table->enum('lecturer_level', [
-                'Head of Department', 
-                'Senior Lecturer', 
-                'Dean', 
+                'Head of Department',
+                'Senior Lecturer',
+                'Dean',
                 'Deputy Dean'
             ])->after('department');
         });
@@ -34,12 +34,13 @@ return new class extends Migration
             $table->dropColumn('lecturer_level');
         });
 
+        // Restore the original lecturer_level enum values
         Schema::table('lecturers', function (Blueprint $table) {
             $table->enum('lecturer_level', [
-                'head_of_department',
-                'senior_lecturer',
-                'dean',
-                'deputy_dean'
+                'Head of Department',
+                'Senior Lecturer',
+                'Dean',
+                'Deputy Dean'
             ])->after('department');
         });
     }

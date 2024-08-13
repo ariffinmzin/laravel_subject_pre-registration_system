@@ -5,12 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+class Subject extends Model
 {
     use HasFactory;
 
-    // left - database
-    // right - frontend
+    public const CREDIT_OPTIONS = [
+        '1' => '1',
+        '2' => '2',
+        '3' => '3',
+        '4' => '4',
+    ];
 
     public const YEAR_OPTIONS = [
         '1' => '1',
@@ -25,25 +29,17 @@ class Student extends Model
         'BIS' => 'BIS',
         'BIW' => 'BIW',
         'BIM' => 'BIM',
-
+        'Faculty' => 'Faculty',
+        'CLS' => 'CLS',
+        'PPUK' => 'PPUK',
     ];
-
 
     protected $fillable = [
-        'user_id',
-        'lecturer_id',
-        'year_of_study',
-        'program',
-        'status'
+        'subject_code',
+        'subject_name',
+        'subject_credit',
+        'subject_program',
+        'subject_year',
+        'status',
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function lecturer()
-    {
-        return $this->belongsTo(Lecturer::class, 'lecturer_id');
-    }
 }

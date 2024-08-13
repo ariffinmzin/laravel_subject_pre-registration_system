@@ -84,7 +84,7 @@
                         for="password_confirmation"
                         class="col-sm-2 col-form-label"
                     >
-                        Confirm Password
+                        Password Confirmation
                     </label>
                     <div class="col-sm-10">
                         <input

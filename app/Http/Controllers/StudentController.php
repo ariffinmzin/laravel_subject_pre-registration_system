@@ -56,7 +56,7 @@ class StudentController extends Controller
             'email' => 'required|email|unique:users,email',
             'matric_id' => 'required|string|max:255|unique:users,matric_id',
             'year' => 'required|integer',
-            'program' => 'required|string|max:255',
+            'program' => 'required|string|max:3|in:BIT,BIP,BIS,BIW,BIM',
             'password' => 'required|string|min:8|confirmed',
             'pak' => 'required|string|exists:users,name', // Ensure the PAK exists in the users table
 

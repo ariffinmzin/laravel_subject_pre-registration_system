@@ -34,7 +34,9 @@
     >
         Add Subject
     </a>
-    <a href="" class="btn btn-primary w-100 mb-2">Find Subject</a>
+    <a href="{{ route("subjects.find") }}" class="btn btn-primary w-100 mb-2">
+        Find Subject
+    </a>
 @endcan
 
 <a href="{{ route("profile.get") }}" class="btn btn-secondary w-100 mb-2">

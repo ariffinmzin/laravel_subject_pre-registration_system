@@ -14,6 +14,7 @@ Route::get('/', function () {
 Route::get('/lecturers/find', [LecturerController::class, 'find'])->middleware(['auth', 'can:is-admin'])->name('lecturers.find');
 Route::get('/find-pak', [StudentController::class, 'findPak'])->middleware(['auth', 'can:is-admin'])->name('find.pak');
 Route::get('/students/find', [StudentController::class, 'find'])->middleware(['auth', 'can:is-admin'])->name('students.find');
+Route::get('/subjects/find', [SubjectController::class, 'find'])->middleware(['auth', 'can:is-admin'])->name('subjects.find');
 Route::post('/subjects/{subject}/status', [SubjectController::class, 'updateStatus'])->middleware(['auth', 'can:is-admin'])->name('subjects.updateStatus');
 
 

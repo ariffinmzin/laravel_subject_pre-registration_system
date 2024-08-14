@@ -141,6 +141,17 @@
                 </div>
             </main>
         </div>
+        <!-- Footer -->
+        <footer class="bg-light text-center py-3 mt-4">
+            <div class="container">
+                <p class="mb-0">
+                    &copy; {{ date("Y") }} developed by
+                    <a href="https://ariffinmzin.com" target="_blank">
+                        ariffinmzin
+                    </a>
+                </p>
+            </div>
+        </footer>
 
         @yield("scripts")
     </body>

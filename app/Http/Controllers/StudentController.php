@@ -231,7 +231,7 @@ class StudentController extends Controller
                                         <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>
                                     </svg>
                                 </a>
-                                <form id="delete-form-' . $student->id . '" action="' . route("lecturers.destroy", $student->id) . '" method="POST" style="display: none;">
+                                <form id="delete-form-' . $student->id . '" action="' . route("students.destroy", $student->id) . '" method="POST" style="display: none;">
                                     <input type="hidden" name="_token" value="' . $csrfToken . '">
                                     <input type="hidden" name="_method" value="DELETE">
                                 </form>
